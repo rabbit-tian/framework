@@ -1,6 +1,6 @@
 #### JS六大数据类型数据类型
 
-- 基本类型：Number，String，Boolean，Undefined，Null    
+- 基本类型：Number，String，Boolean，Undefined，Null ,  Symbol(独一无二的值，避免属性名冲突)
 - 引用类型：Object
 
 #### 如何判断数据类型
@@ -47,7 +47,7 @@
 
       
 
-6. Object.prototype.toString.all()
+6. Object.prototype.toString.call()
 
    ```js
    var num1 = 1;
@@ -64,6 +64,32 @@
    function A () {};
    var a = new A();
    Object.prototype.toString.call(a) == "[object Object]"; // true
+   ```
+
+7. 判断数据类型函数封装
+
+   ```js
+   function judgeDataType (obj) {
+     // 基本类型判断
+     if (typeof obj == "number") {
+         return "number";
+     } else if (typeof obj == "string") {
+         return "string";      
+     } else if (typeof obj == "boolean") {
+         return "boolean";      
+     } else if (typeof obj == "object") {
+        // 此时判断此为 引用类型，采用 instanceof 方法判断
+       if (obj instanceof Array) {
+           return "array"
+       } else if (obj instanceof Function ) {
+           return "function";
+       }	else if (obj instanceof RegExp) {
+           return "regexp";     
+       } else if (obj instanceof Date) {
+           return "date";     
+       }
+    	}
+   }
    ```
 
    
