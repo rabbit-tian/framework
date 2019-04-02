@@ -81,7 +81,9 @@
      } else if (typeof obj == "string") {
          return "string";      
      } else if (typeof obj == "boolean") {
-         return "boolean";      
+         return "boolean";
+     } else if (typeof obj == "undefined") {
+         return "undefined";      
      } else if (typeof obj == "object") {
         // 此时判断此为 引用类型，采用 instanceof 方法判断
        if (obj instanceof Array) {
@@ -92,9 +94,17 @@
            return "regexp";     
        } else if (obj instanceof Date) {
            return "date";     
+       } else {
+         return "object";
        }
     	}
    }
    ```
 
    
+
+8. Apply 和 call 的区别
+   - 相同点：都“可以用来代替另一个对象调用一个方法，将一个函数的对象上下文从初始的上下文改变为由thisObj指定的新对象”
+   - 不同点：只是传入的参数列表形式不同
+     - apply：最多只能有两个参数——新this对象和一个数组argArray。
+     - call：它可以接受多个参数，第一个参数与apply一样，后面则是一串参数列表。
