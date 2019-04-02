@@ -86,9 +86,9 @@
          return "undefined";      
      } else if (typeof obj == "object") {
         // 此时判断此为 引用类型，采用 instanceof 方法判断
-       if (obj instanceof Array) {
+       if (Array.isArray(obj)) {
            return "array"
-       } else if (obj instanceof Function ) {
+       } else if (Object.prototype.toString.call(obj) == '[object Function]') {
            return "function";
        }	else if (obj instanceof RegExp) {
            return "regexp";     
