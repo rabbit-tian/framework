@@ -6,18 +6,18 @@
 
      - 创建XMLHTTPRequest对象
      - 打开与服务器的连接
-     - 发送请求
      -  在xmlHttp对象的一个事件上注册监听器：onreadystatechange
+     - 发送请求
 
      ```js
      let xhr = new XMLHttpRequest();
      xhr.open('GET','/xxx');
-     xhr.send('a=1&b=2');
      xhr.onreadystatechange = function () {
        if (xhr.readyState === 4 && xhr.status === 200) {
           console.log(xhr.responseText) 
        }
      }
+     xhr.send('a=1&b=2');
      ```
 
      
