@@ -147,9 +147,90 @@
 
    参考：<https://www.cnblogs.com/2050/p/3191744.html>,<https://blog.csdn.net/ligang2585116/article/details/73072868>
 
+   视频：<http://www.html5train.com/kecheng/detail_1557742>
+
 
 
 6. #### 浅谈session,cookie,sessionStorage,localStorage的区别及应用场景
 
-   - 
+   - 参考：<https://www.cnblogs.com/cencenyue/p/7604651.html>
+
+   - cookie和session
+
+     - 相同点：cookie和session都是用来跟踪浏览器用户身份的会话方式。
+
+     - 不同点分析
+
+       1. **保持状态**：cookie保存在浏览器端，session保存在服务器端
+
+       2. **cookie机制**：如果不在浏览器中设置过期时间，cookie被保存在内存中，生命周期随浏览器的关闭而结束，简称：会话cookie；如果在浏览器中设置了cookie的过期时间，cookie被保存在硬盘中，关闭浏览器后，cookie数据依然存在，直到过期时间结束才消失。cookie是服务器发给客户端的特殊信息，以文本的方式保存在客户端，每次请求都会带上它
+
+          **session机制**：当服务器收到请求需要创建session对象时，首先会检查客户端请求中是否会包含sessionId。如果有sessionId，服务器会根据这个id返回对应的session对象，如果没有客户端请求中没有sessionId，服务器会创建新的session对象，并把sessionId在本次的响应中返回给客户端。通常使用cookie的方式存储sessionId到客户端，在交互中浏览器按照规则将sessionId发送给服务器，如果用户禁用cookie，则要使用URl重写，可以通过response。encodeURL(url)进行实现；API对encodeURL的结束为，当浏览器支持Cookie时，url不做任何处理；当浏览器不支持Cookie的时候，将会重写URL将SessionID拼接到访问地址后。
+
+       3. **存储内容**：cookie只能保存字符串类型，以文本的形式，session支持任何类型的对象
+
+       4. **存储大小**：单个cookie保存数据不能超过 4KB，session没有限制
+
+       5. **安全性**：cookie欺骗，cookie截取，session的安全性大于cookie
+
+          - sessionId存在cookie中，先得攻破cookie，才能攻破session
+          - sessionId需要有人登录
+          - sessionId是加密的
+
+       6. **应用场景**：
+
+          - cookie: 
+            - 判断用户是否登陆过网站，以便下次登录时能够实现自动登录（或者记住密码)
+            - 保存上次登录的时间等信息。
+            - 保存上次看的页面
+            - 浏览计数
+          - session
+            - session用于保存每个用户的专用信息，变量的值保存在服务器端，通过sessionId来区分不同的客户
+            - 网站商城中的购物车
+            - 保存用户的登录信息
+            - 将某些数据放入session中，供同一用户不同页面的使用
+            - 防止用户非法登录
+
+       7. 缺点：
+
+          - cookie
+            - 大小限制
+            - 安全性低
+            - 每次访问都要传送cookie
+          - session
+            - 服务器内存压力大
+            - 依赖于cookie(sessionId保存在cookie)，如果禁用cookie，则要使用URL重写，不安全
+            - 创建session白能量有很大的随意性，过度的使用session变量将会导致代码不可读二期不好维护
+
+   - ##### WebStorage
+
+     - 提供两种 API：localStorage(本地存储)  和 sessionStorage(会话存储)
+     - localStorage(本地存储)  和 sessionStorage(会话存储)的比较
+       1. localStorage 生命周期是永久的，除非主动删除数据；sessionStorage的生命周期，在关闭浏览器窗口后就会被销毁
+       2. 存储大小一般 5MB
+       3. 都存储在客户端，不和服务器进行通信
+       4. 都只能存储字符串类型，复杂的对象可以用JSON对象的stringify和parse来处理
+       5. 获取方式  window.localStorage(sessionStorage)
+
+     - WebStorage的优点:
+       1. 存储空间大
+       2. 节省网络流量：不需要传到服务器，存储在本地的数据可以直接获取，减少了客服端和服务端的交互
+       3. 快速显示：从本地获取比到服务器端获取快的多
+       4. 安全性：webStorage不会随着HTTP header发送到服务器端，安全性相对于cookie高一点，不会担心截取，但存在伪造问题
+       5. webStorage提供的方法，操作方便
+          - setItem(key,value) — 保存数据
+          - getItem(key) — 获取数据
+          - removeItem(key) — 删除单个数据
+          - clear() — 清空所有数据
+          - key(index) — 获取某个索引的key 
+
+     
+
+     
+
+     
+
+     
+
+     
 
