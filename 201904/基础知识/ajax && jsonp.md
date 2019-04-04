@@ -40,9 +40,10 @@
 
 5. #### 解决跨域
 
-   1. jsonp
+   1. ##### jsonp
 
       - 通过script标签引入一个js文件，这个js文件载入成功后会执行我们在url参数中指定的函数，并且会把我们需要的json数据作为参数传入。所以jsonp是需要服务器端的页面进行相应的配合的
+      - 缺点：只能使用get请求，jsonp是从其他域加载代码执行，容易受到攻击
 
       ```js
       // 比如 a.html 页面。需要利用 ajax 获取 一个不同域上的json数据，json数据地址：http://example.com/data.php，
@@ -69,7 +70,7 @@
 
       
 
-   2. Window.name 
+   2. ##### Window.name  + 跨域资源共享（CORS）iframe跨域
 
       - window对象有个name属性，该属性特征：在一个窗口的生命周期内，窗口载入的所有页面共享一个window.name，每个页面都有对 window.name 的读写权限
       - 举例
@@ -103,11 +104,52 @@
       </body>
       ```
 
+   3. ##### H5的方法  window.postMessage(message,targetOrigin)    缺点： IE6，7不支持
+
+      - 该方法的第一个参数message为要发送的消息，类型只能为字符串；第二个参数targetOrigin用来限定接收消息的那个window对象所在的域，如果不想限定域，可以使用通配符 *  
+      - 可以用来向其他所有的 window 对象发送消息
+
+      ```js
+      // 发送数据的页面   http://test.com/a.html
+      <script>
+       function onLoad () {
+        var iframe = document.getElementById('iframe');
+        var win = iframe.contentWindow; // 获取window对象
+        win.postMessage('哈哈，我是a页面传过来的数据','*'); // 向不同域的 http://test.com/b.html 																										页面发送消息
+       }
+      </script>
+      <iframe id="iframe" src="http://test.com/b.html" onload="onLoad()"></iframe>
       
+      
+      // 接收数据的 页面  http://test.com/b.html
+      <script>
+      window.onmessage = function (e) { // 注册 message 事件来接收消息
+        e = e || event; // 获取事件对象
+        console.log(e.data); // 通过data属性得到传达的 消息
+      }
+      </script>
+      ```
+
+   4. #####  跨域资源共享（CORS）
+
+      - 服务端设置 请求头  Access-Control-Allow-Origin 
+      - 纯后端的解决方式,每次请求都会有一个origin信息被后端捕捉，后端可以通过设置对这个origin的域允许访问来解决跨域问题
+
+   5. ##### WebSocket协议跨域
+
+      - 是HTML5一种新的协议。它实现了浏览器与服务器全双工通信，同时允许跨域通讯
+
+   6. ##### 服务端代理proxy
+
+      - 同源策略是针对浏览器端进行的限制，可以通过服务器端来解决该问题
+
+      - 因为服务器间的数据交互没有跨域限制，所以我们可以通过一个中间代理服务器来请求目标服务器的数据，也就是开发服务器发送请求到代理服务器，代理服务器再请求目标服务器，将数据返回给开发服务器
+
+   参考：<https://www.cnblogs.com/2050/p/3191744.html>,<https://blog.csdn.net/ligang2585116/article/details/73072868>
 
 
 
+6. #### 浅谈session,cookie,sessionStorage,localStorage的区别及应用场景
 
-
-
+   - 
 
