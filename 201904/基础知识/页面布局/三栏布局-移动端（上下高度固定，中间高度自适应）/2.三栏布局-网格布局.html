@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        .box {
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            background-color: #ccc;
+            /* 网格布局法 */
+            display: grid;
+            grid-template-columns: 100%;
+            grid-template-rows: 100px auto 100px;
+
+        }
+        .ttop {
+            background-color: red;
+        }
+        .center {
+            background-color: yellow;
+        }
+        .bot {
+            background-color: blue;
+        }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <div class="ttop">12323</div>
+        <div class="center">
+            <h1>三栏布局：定位</h1>
+            <h1>三栏布局：定位</h1>
+            <h1>三栏布局：定位</h1>
+            <h1>三栏布局：定位</h1>
+            <h1>三栏布局：定位</h1>
+            上下高度固定，中间高度自适应
+            上下高度固定，中间高度自适应
+        </div>
+        <div class="bot">23423</div>
+    </div>
+</body>
+</html>

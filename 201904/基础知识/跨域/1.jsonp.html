@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    // 百度输入关键字的 请求链接
+    // https://www.baidu.com/sugrec?pre=1&p=3&ie=utf-8&json=1&prod=pc&from=wise_web&sugsid=1457,21078,20697,28775,28721,28557,28584,28519,28626,28606&wd=pig&req=2&bs=%E6%A8%B1&pbs=pi&csor=3&pwd=pi&cb=show
+
+    // show是前后端商量好的参数，用来接收数据
+    function show(data) {
+      console.log(data);
+    }
+  
+  </script>
+
+  <!-- 精简后的链接 
+    1、wd: 请求的关键词
+    2、cb: 后端返回的 包着数据的函数
+  -->
+  <script src="https://www.baidu.com/sugrec?prod=pc&wd=pig&cb=show"></script>
+
+</body>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        .box{
+            display: flex;
+        }
+        .box>div {
+            height: 200px;
+        }
+        .left{
+            width: 300px;
+            background: red;
+        }
+        .center{
+            /* 剩余撑满整行 */
+            flex: 1;
+            background-color: yellow;
+        }
+        .right{
+            width: 300px;
+            background: blue;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="box">
+        <div class="left"></div>
+        <div class="center">
+            <h1>flex-box解决方案</h1>
+            1. 这个是三栏布局
+            2. 这个是三栏布局
+        </div>
+        <div class="right"></div>
+    </div>
+</body>
+</html>
