@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <!-- 
+    window.domain: 
+      1. 使用对象：一级域名和二级域名之间的跨域
+   -->
+  <iframe src="http://b.tian.cn:3000/b.html" id="iframe" onload="load()"></iframe>
+  <script>
+    document.domain = 'tian.cn'; // 定义在此域名下可通信
+    let iframe = document.getElementById('iframe');
+    function load(){
+      console.log(iframe.contentWindow.a);
+    }
+  </script>
+</body>
+</html>

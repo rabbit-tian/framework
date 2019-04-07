@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <iframe src="./2-b.postMessage.html" frameborder="0" id="iframe" onload=load()></iframe>
+
+  <script>
+    // a页面和 b 页面通信
+    function load(){
+      // 向 b 页面发送消息
+      let frame = document.getElementById('iframe');
+      iframe.contentWindow.postMessage('我来自a页面','*');
+
+      // 接收b页面的信息
+      window.onmessage = function (e) {
+        console.log(e.data);
+      }
+    }
+  </script>
+</body>
+</html>

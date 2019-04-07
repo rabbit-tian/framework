@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    // 接收消息
+    window.onmessage = function (e) {
+      console.log(e.data);
+      // 向a页面发送消息
+      e.source.postMessage('我来自b页面',e.origin);
+    }
+  </script>
+</body>
+</html>

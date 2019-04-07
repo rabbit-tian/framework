@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <!-- a 和 c页面的通信 -->
+  <!-- 利用iframe 引入 c页面 -->
+  <iframe src="./c.html" frameborder="0" id="iframe" onload=load()></iframe>
+
+  <script>
+    // a 和 b是同域的
+    // c是独立域的
+    // a引用c，c把值放在window.name上，把a的引用地址改到b
+    let first = true; 
+    function load() {
+      let iframe = document.getElementById('iframe');
+      if (first) {
+        iframe.src="./b.html";
+        first = false;
+      } else {
+        console.log(iframe.contentWindow.name);
+      }
+    }
+  </script>
+</body>
+</html>

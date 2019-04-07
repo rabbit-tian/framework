@@ -85,18 +85,198 @@
       - res.setHeader('Access-Control-Expose-Headers','name') : 允许前端获取哪个头
       - 
 
-   3. postMessage: 两个页面的通信
+   3. postMessage + iframe: 两个页面的通信 
 
-      - 
+      ```js
+      // a页面
+      <body>
+        <iframe src="./2-b.postMessage.html" frameborder="0" id="iframe" onload=load()></iframe>
+      
+        <script>
+          // a页面和 b 页面通信
+          function load(){
+            // 向 b 页面发送消息
+            let frame = document.getElementById('iframe');
+            iframe.contentWindow.postMessage('我来自a页面','*');
+      
+            // 接收b页面的信息
+            window.onmessage = function (e) {
+              console.log(e.data);
+            }
+          }
+        </script>
+      </body>
+      
+      
+      // b页面
+      <script>
+          // 接收消息
+          window.onmessage = function (e) {
+          console.log(e.data);
+          // 向a页面发送消息
+          e.source.postMessage('我来自b页面',e.origin);
+        }
+      </script>
+      ```
 
-   4. document.main: 子域名和父域
+      
 
-   5. window.name
+   4. window.name  + iframe :  两个页面通信，利用另一个空页面
 
-   6. location.hash
+      ```js
+      // a页面
+      <body>
+        <!-- a 和 c页面的通信 -->
+        <!-- 利用iframe 引入 c页面 -->
+        <iframe src="./c.html" frameborder="0" id="iframe" onload=load()></iframe>
+      
+        <script>
+          // a 和 b是同域的
+          // c是独立域的
+          // a引用c，c把值放在window.name上，把a的引用地址改到b
+          let first = true; 
+          function load() {
+            let iframe = document.getElementById('iframe');
+            if (first) {
+              iframe.src="./b.html";
+              first = false;
+            } else {
+              console.log(iframe.contentWindow.name);
+            }
+          }
+        </script>
+      </body>
+      
+      // c页面
+      <body>
+        <script>
+          // 在 windoe.name 中存入数据
+          window.name = "我是c页面的数据";
+        </script>
+      </body>
+      ```
 
-   7. http-proxy
+      
 
-   8. nginx
+   5. location.hash
 
-   9. websocket
+      ```js
+      // a 页面
+      <body>
+        <!--  路径后边的hash值是可以用来通信的
+          a 把 hash值传给 c
+          c 把 hash值传给 b
+          b将结果放到 a的hash值上
+      
+          ab同域  http://localhost:3000/a.html  http://localhost:3000/b.html
+          c不同域 http://localhost:4000/c.html
+         -->
+      
+        <iframe src="http://localhost:4s000/c.html#lamapig" id="iframe"></iframe>
+        <script>
+          // 拿到b传过来的hash值
+          window.onhashchange = function () {
+            console.log(location.hash);
+          }
+        </script>
+      </body>
+      
+      // c页面
+      <body>
+        <script>
+          console.log(location.hash);
+          let iframe = document.createElement('iframe');
+          iframe.src="http://localhost:3000/b.html#yes";
+          document.body.appendChild(iframe);
+        </script>
+      </body>
+      
+      // b 页面
+      <body>
+        <script>
+          // 让 a的hash值等于c传过来的hash值
+          window.parent.parent.location.hash = location.hash;
+        </script>
+      </body>
+      
+      ```
+
+   6. document.domain: 子域名和父域
+
+      ```js
+      // a页面获取b页面的数据
+      
+      // a 页面
+      <body>
+        <!-- 
+          window.domain: 
+            1. 使用对象：一级域名和二级域名之间的跨域
+         -->
+        <iframe src="http://b.tian.cn:3000/b.html" id="iframe" onload="load()"></iframe>
+        <script>
+          document.domain = 'tian.cn'; // 定义在此域名下可通信
+          let iframe = document.getElementById('iframe');
+          function load(){
+            console.log(iframe.contentWindow.a);
+          }
+        </script>
+      </body>
+      
+      
+      // b页面
+      <script>
+        document.domain = 'tian.cn'; // 定义在此域名下可通信
+      	let a = 100;
+      </script>
+      ```
+
+   7. websocket
+
+      - *websocket : 高级api 不兼容*  
+      - *使用插件可实现兼容 socket.io*
+
+      ```js
+      // 客服端  a.html
+      <body>
+        <script>
+          // websocket : 高级api 不兼容     使用插件可实现兼容 socket.io
+          let socket = new WebSocket('ws://localhost:3000');
+          socket.onopen = function () {
+            // 向服务器发送信息
+            socket.send('go away');
+          };
+      
+          // 接收服务器发来的信息
+          socket.onmessage = function (e) {
+            console.log(e.data);
+          }
+        </script>
+      </body>
+      
+      
+      // 服务端  a.js
+      let app = express();
+      let WebSocket = require('ws');
+      let wss = new WebSocket.Server({port:3000});
+      wss.on('connection',function (ws) {
+        ws.on('message',function (data) {
+          console.log(data)// 接收客服端传来的信息
+      
+          // 向客服端发送信息
+          ws.send('no');
+        })
+      })
+      ```
+
+      
+
+   8. http-proxy
+
+      - 纯代理：利用服务器之间没有跨域限制
+
+   9. nginx
+
+      - 下载  nginx 包
+      - 在nginx.conf文件里  配置  路径和 头部
+
+      

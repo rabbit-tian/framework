@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    // websocket : 高级api 不兼容     使用插件可实现兼容 socket.io
+    let socket = new WebSocket('ws://localhost:3000');
+    socket.onopen = function () {
+      // 向服务器发送信息
+      socket.send('go away');
+    };
+
+    // 接收服务器发来的信息
+    socket.onmessage = function (e) {
+      console.log(e.data);
+    }
+  </script>
+</body>
+</html>

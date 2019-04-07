@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <!--  路径后边的hash值是可以用来通信的
+    a 把 hash值传给 c
+    c 把 hash值传给 b
+    b将结果放到 a的hash值上
+
+    ab同域  http://localhost:3000/a.html  http://localhost:3000/b.html
+    c不同域 http://localhost:4000/c.html
+   -->
+
+  <iframe src="http://localhost:4s000/c.html#lamapig" id="iframe"></iframe>
+  <script>
+    // 拿到b传过来的hash值
+    window.onhashchange = function () {
+      console.log(location.hash);
+    }
+  </script>
+</body>
+</html>
