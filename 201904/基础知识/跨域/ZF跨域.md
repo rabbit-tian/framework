@@ -19,6 +19,8 @@
    1. jsonp
 
       - link的href，img的src，script的src  不受同源策略的限制
+      - 缺点：只能发get请求，不能发post，put
+      - 不安全，xss攻击，脚本注入攻击
 
       ```js
       <script>
@@ -71,9 +73,21 @@
 
       
 
-   2. Cors：纯后端提供(前后端)
+   2. Cors：纯后端提供(前后端通信)
+
+      - 服务端解决的方案，比较安全
+      - res.setHeader('Access-Control-Allow-Origin',origin) : 允许哪个源访问我
+        - res.setHeader('Access-Control-Allow-Origin',*)  不能和 使用cookie一起使用
+      - res.setHeader('Access-Control-Allow-Header','name') : 允许携带哪个头访问我
+      - res.setHeader('Access-Control-Allow-Methods','PUT') : 允许哪个方法访问我
+      - res.setHeader('Access-Control-Allow-Credentials',true) : 允许cookie访问我
+      - res.setHeader('Access-Control-Allow-Max-Age',6) : 预检的存活时间
+      - res.setHeader('Access-Control-Expose-Headers','name') : 允许前端获取哪个头
+      - 
 
    3. postMessage: 两个页面的通信
+
+      - 
 
    4. document.main: 子域名和父域
 
