@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    /*
+      map: 也可以称为 ”映射“，原数组被 ”映射“ 成对应新数组
+          1. 有返回值, 必须 return 
+          2. 创建了一个新数组，原数组不变
+    */
+
+    let arr = [10, 2, 3, 4, 5, 6, 7, 8];
+    let arrBack = arr.map((item,index,arr) => {
+      return item*2;
+    })
+    console.log(arrBack); // [20, 4, 6, 8, 10, 12, 14, 16]
+    console.log(arr); // [10, 2, 3, 4, 5, 6, 7, 8]
+  </script>
+</body>
+</html>

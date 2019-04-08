@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+  /*
+    filter: 过滤
+    1. 创建一个新数组，新数组中的元素是筛选出来的符合条件的所有对象。
+  
+  */
+  let arr = [10, 2, 3, 4, 5, 6, 7, 8];
+
+  let arrBack = arr.filter((item,index,arr) => {
+    if (item > 6) {
+      return item;
+    }
+  })
+  console.log(arrBack);
+  console.log(arr);
+  </script>
+</body>
+</html>

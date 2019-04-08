@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    /*
+      forEach:
+      1. 三个参数：子项，索引，循环的对象
+      2. 没有返回值 ，只有forEach() 后边不支持链式操作
+      3. 当数组中的元素是  值 类型，不可以改变; 
+                        引用类型，可以改变;
+    */
+
+    let arr = [10,2,3,4,5,6,7,8];
+    let objArr = [
+      {age:10,name: "tom"},
+      {age:22,name: "jack"},
+    ];
+
+    arr.forEach(function (item,index,arr) {
+      item = item *2;
+    })
+    console.log(arr); // [10,2,3,4,5,6,7,8]
+
+    objArr.forEach(function (item, index, arr) {
+      item.age = item.age * 2;
+      item.name = item.name + 2;
+    })
+    console.log(objArr);  // [{ age: 20, name: "tom2" }, { age: 44, name: "jack2" }]
+  
+  </script>
+</body>
+</html>
