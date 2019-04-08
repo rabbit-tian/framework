@@ -23,20 +23,39 @@
     // new Set()
 
     let arr = [1,2,7,5,4,3,2,1,2,3,4];
-    let newArr = new Set(arr);
-    newArr.add(1);
-    newArr.add(10);
-    console.log(newArr); // [1,2,7,5,4,3,10]
+    // let newArr = new Set(arr);
+    // newArr.add(1);
+    // newArr.add(10);
+    // console.log(newArr); // [1,2,7,5,4,3,10]
 
-    let arrObj = [{name: 'jay Chou', age: 40}, { name: 'jay Chou', age: 40 },1,1,1];
-    let newArrObj = new Set(arrObj);
-    console.log(newArrObj);
+    // let arrObj = [{name: 'jay Chou', age: 40}, { name: 'jay Chou', age: 40 },1,1,1];
+    // let newArrObj = new Set(arrObj);
+    // console.log(newArrObj);
 
 
-    // _.uniqWith() 
+    // // _.uniqWith() 
 
-    import _ from 'lodash';
-    _.uniqWith(arrObj,_.isEqual); // [{ name: 'jay Chou', age: 40 },1];
+    // import _ from 'lodash';
+    // _.uniqWith(arrObj,_.isEqual); // [{ name: 'jay Chou', age: 40 },1];
+
+
+    // foreach + includes
+      let newArr = [];
+      arr.forEach(item => !newArr.includes(item) && newArr.push(item));
+      console.log(newArr);
+
+
+      // filter + indexof
+      let newArr2 = arr.filter((item, index) => arr.indexOf(item) === index);
+      console.log(newArr2);
+      
+      // reduce 
+      let newArr3 = arr.reduce((pre, cur) => {
+          !pre.includes(cur) && pre.push(cur)
+          return pre
+       }, [])
+       console.log(newArr3);
+      
   
   
   </script>
