@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+  /* 
+    every(): 用于检查数组中是否有全部符合条件的
+      1. 只要有一个不满足条件的，就返回 false
+  */
+
+  let arr = [3, 1, 5, 2, 7, 8];
+  let back = arr.every((item,index) => {
+    // return item > 1; // false
+    return item > 0; // true
+  })
+  console.log(back); // true
+
+  </script>
+</body>
+</html>

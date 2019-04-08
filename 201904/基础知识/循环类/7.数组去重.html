@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    /*
+      数组去重：
+        1. new Set()
+            a. 已有的元素是添加不进去的
+            b. 不能去重 元素是引用类型的数组
+
+        2. lodash 中的方法，  lodash是js的 使用工具库
+             _.uniqWith(): 去重处理
+             _.isEqual(value,other): 用来执行深比较，来确定两者的值是否相等
+
+    */ 
+
+    // new Set()
+
+    let arr = [1,2,7,5,4,3,2,1,2,3,4];
+    let newArr = new Set(arr);
+    newArr.add(1);
+    newArr.add(10);
+    console.log(newArr); // [1,2,7,5,4,3,10]
+
+    let arrObj = [{name: 'jay Chou', age: 40}, { name: 'jay Chou', age: 40 },1,1,1];
+    let newArrObj = new Set(arrObj);
+    console.log(newArrObj);
+
+
+    // _.uniqWith() 
+
+    import _ from 'lodash';
+    _.uniqWith(arrObj,_.isEqual); // [{ name: 'jay Chou', age: 40 },1];
+  
+  
+  </script>
+</body>
+</html>

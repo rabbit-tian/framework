@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    // sort: 对数组中的元素进行排序，可以是字母或是数字，按升序或者是降序 , 默认是按升序
+
+    let arr = [3, 1, 5, 2, 7, 8];
+    arr.sort((a,b) => {
+      return a-b;    // 升序  [1, 2, 3, 5, 7, 8]
+      // return b-a; // 降序  [8, 7, 5, 3, 2, 1]
+    });
+    console.log(arr);
+  
+  </script>
+</body>
+</html>
