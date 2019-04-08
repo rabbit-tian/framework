@@ -33,7 +33,7 @@
     // console.log(newArrObj);
 
 
-    // // _.uniqWith() 
+    // // _.uniqWith()
 
     // import _ from 'lodash';
     // _.uniqWith(arrObj,_.isEqual); // [{ name: 'jay Chou', age: 40 },1];
@@ -41,18 +41,28 @@
 
     // foreach + includes
       let newArr = [];
-      arr.forEach(item => !newArr.includes(item) && newArr.push(item));
+      // arr.forEach(item => !newArr.includes(item) && newArr.push(item));
+      arr.forEach(item => {
+        if (!newArr.includes(item)) { // 如果当前项不在新的数组中，就添加进去
+          newArr.push(item)
+        }
+      })
       console.log(newArr);
 
 
       // filter + indexof
-      let newArr2 = arr.filter((item, index) => arr.indexOf(item) === index);
+      // let newArr2 = arr.filter((item, index) => arr.indexOf(item) === index);
+      let newArr2 = arr.filter((item,index) => {
+        return arr.indexOf(item) === index; // 过滤出来  当前项的 索引值等于 循环的索引值
+      })
       console.log(newArr2);
       
       // reduce 
       let newArr3 = arr.reduce((pre, cur) => {
-          !pre.includes(cur) && pre.push(cur)
-          return pre
+          if (!pre.includes(cur)) {
+            pre.push(cur);
+          }
+          return pre;
        }, [])
        console.log(newArr3);
       
