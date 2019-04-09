@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    let tian = "iamsuperman1206";
+
+    // 1.找字符串中具体的值   str.charAt(index)
+    console.log(tian.charAt(0));; //  i
+
+    // 2.找字符ASCII码  str.charCodeAt(index)
+    console.log(tian.charCodeAt(1)); // 97
+
+    /*
+      3.字符串截取  str.substr(n,m)
+        a. 从索引n 截取 m 个元素
+        b. 支持负数
+    */ 
+    console.log(tian.substr(0,2)); // im
+    console.log(tian.substr(-4)); // 1206
+
+
+    /*
+      4.字符串截取  str.substring(n,m)
+        a. 从 索引n 截取到 索引 m，不包括m
+        b. 不支持负数
+    */
+    console.log(tian.substring(0,3)); // iam
+
+
+    /*
+      5.字符串截取  str.slice(n,m)
+        a. 从 索引n 截取到 索引 m，不包括m
+        b. 支持负数
+    */
+    console.log(tian.slice(0, 3)); // iam
+    console.log(tian.slice(0, -3)); // iamsuperman1
+    
+    // 6.字符串第一次出现的位置    返回值：索引
+    console.log(tian.indexOf('a')); // 1
+
+    // 7.字符串最后一次出现的位置    返回值：索引
+    console.log(tian.lastIndexOf('a')); // 9
+
+    // 
+
+  
+  </script>
+</body>
+</html>
