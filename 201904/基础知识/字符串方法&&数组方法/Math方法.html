@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    // 1. Math.ceil(num): 向上取整
+    console.log(Math.ceil(3.4)); // 4
+  
+    // 2. Math.floor(num): 向下取整
+    console.log(Math.ceil(3.6)); // 4
+
+    // 3. Math.round(num): 四舍五入
+    console.log(Math.round(3.6)); // 4
+    console.log(Math.round(3.2)); // 3
+
+    // 4. Math.abs(num): 取绝对值
+    console.log(Math.abs(-6)); // 6
+
+    // 5. Math.sqrt(num): 取平方根
+    console.log(Math.sqrt(64)); // 8
+
+    // 6. Math.pow(num): 次幂，平方
+    console.log(Math.pow(2,4)); // 计算 2的 4次幂  16
+
+    // 7. Math.PI(): π
+    console.log(Math.PI); // 3.141592653589793
+
+    // 8. Math.random(): 随机数   默认 取 0-1 之间的小数
+
+    parseInt(Math.random()*10); // 0-9任意值 包括0和9
+    Math.round(Math.random()*10); // 0-10任意值  包括 0和10
+    Math.round(Math.random() * (15-5) + 5); // 5-15 任意值 包括5和15
+    Math.ceil(Math.random()*8); // 1-8任意值 包括 1和8
+
+
+  </script>
+</body>
+</html>
