@@ -77,13 +77,27 @@
 
     // 5.将多维数组转化为 一维数组
     let arr5 = [[1,2],[[3,4],[5,6]]];
-    function newArr(arr) {
-      arr.reduce((prev,cur) => {
-        
-      })
+    function newArrFn(arr) {
+      return arr.reduce((pre, cur) => pre.concat(Array.isArray(cur) ? newArrFn(cur) : cur), [])
     }
+    console.log(newArrFn(arr5)); // [1, 2, 3, 4, 5, 6]
 
+    // 6.对象里的属性求和
+    let result = [
+      {
+        name: 'tian1',
+        age: 18
+      },
+      {
+        name: 'tian2',
+        age: 20
+      },
+    ];
+    let sum2 = result.reduce((prev,cur) => {
+      return prev + cur.age;
+    },0)
 
+    console.log(sum2); // 38
 
   
   </script>
