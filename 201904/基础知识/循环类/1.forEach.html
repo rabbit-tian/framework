@@ -14,6 +14,7 @@
       2. 没有返回值 ，只有forEach() 后边不支持链式操作
       3. 当数组中的元素是  值 类型，不可以改变; 
                         引用类型，可以改变;
+      4. 不改变原数组
     */
 
     let arr = [10,2,3,4,5,6,7,8];
@@ -22,7 +23,7 @@
       {age:22,name: "jack"},
     ];
 
-    arr.forEach(function (item,index,arr) {
+    let newArr = arr.forEach(function (item,index,arr) {
       item = item *2;
     })
     console.log(arr); // [10,2,3,4,5,6,7,8]
