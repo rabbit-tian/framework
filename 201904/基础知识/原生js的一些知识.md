@@ -290,17 +290,17 @@
 
 10. #### 在JS中什么是变量提升？什么是暂时性死区？
 
-    - 变量提升就是变量在声明之前就可以使用，值为undefined。
+   - 变量提升就是变量在声明之前就可以使用，值为undefined。
 
-    - 在代码块内，使用 let/const 命令声明变量之前，该变量都是不可用的(会抛出错误)。这在语法上，称为“暂时性死区”。暂时性死区也意味着 typeof 不再是一个百分百安全的操作。
+   - 在代码块内，使用 let/const 命令声明变量之前，该变量都是不可用的(会抛出错误)。这在语法上，称为“暂时性死区”。暂时性死区也意味着 typeof 不再是一个百分百安全的操作。
 
-      ```js
-      typeof x; // ReferenceError(暂时性死区，抛错)
-      let x;
-      typeof y; // 值是undefined,不会报错
-      ```
+     ```js
+     typeof x; // ReferenceError(暂时性死区，抛错)
+     let x;
+     typeof y; // 值是undefined,不会报错
+     ```
 
-    - 暂时性死区的本质就是，只要一进入当前作用域，所要使用的变量就已经存在了，但是不可获取，只有等到声明变量的那一行代码出现，才可以获取和使用该变量。
+   - 暂时性死区的本质就是，只要一进入当前作用域，所要使用的变量就已经存在了，但是不可获取，只有等到声明变量的那一行代码出现，才可以获取和使用该变量。
 
 11. #### 如何正确的判断this? 箭头函数的this是什么？
 
@@ -348,11 +348,266 @@
       
 
     - 应用场景
+
       - 封装私有变量
+
       - 模仿块级作用域(ES5中没有块级作用域)
+
       - 实现JS的模块
 
+        
+
 15. #### call、apply有什么区别？call,aplly和bind的内部是如何实现的？
+
+      
+
+    - call 和 apply 的功能相同，区别在于传参的方式不一样:
+
+      - fn.call(obj, arg1, arg2, ...),调用一个函数, 具有一个指定的this值和分别地提供的参数(参数的列表)。
+
+      - fn.apply(obj, [argsArray]),调用一个函数，具有一个指定的this值，以及作为一个数组（或类数组对象）提供的参数。
+
+        
+
+    - call核心:
+
+      - 将函数设为传入参数的属性
+      - 指定this到函数并传入给定参数执行函数
+      - 如果不传入参数或者参数为null，默认指向为 window / global
+      - 删除参数上的函数
+
+      ```js
+      Function.prototype.call = function (context) {
+          /** 如果第一个参数传入的是 null 或者是 undefined, 那么指向this指向 window/global */
+          /** 如果第一个参数传入的不是null或者是undefined, 那么必须是一个对象 */
+          if (!context) {
+              //context为null或者是undefined
+              context = typeof window === 'undefined' ? global : window;
+          }
+          context.fn = this; //this指向的是当前的函数(Function的实例)
+          let rest = [...arguments].slice(1);//获取除了this指向对象以外的参数, 空数组slice后返回的仍然是空数组
+          let result = context.fn(...rest); //隐式绑定,当前函数的this指向了context.
+          delete context.fn;
+          return result;
+      }
+      
+      //测试代码
+      var foo = {
+          name: 'Selina'
+      }
+      var name = 'Chirs';
+      function bar(job, age) {
+          console.log(this.name);
+          console.log(job, age);
+      }
+      bar.call(foo, 'programmer', 20);
+      // Selina programmer 20
+      bar.call(null, 'teacher', 25);
+      // 浏览器环境: Chirs teacher 25; node 环境: undefined teacher 25
+      
+      ```
+
+    - apply:  apply的实现和call很类似，但是需要注意他们的参数是不一样的，apply的第二个参数是数组或类数组.
+
+      ```js
+      Function.prototype.apply = function (context, rest) {
+          if (!context) {
+              //context为null或者是undefined时,设置默认值
+              context = typeof window === 'undefined' ? global : window;
+          }
+          context.fn = this;
+          let result;
+          if(rest === undefined || rest === null) {
+              //undefined 或者 是 null 不是 Iterator 对象，不能被 ...
+              result = context.fn(rest);
+          }else if(typeof rest === 'object') {
+              result = context.fn(...rest);
+          }
+          delete context.fn;
+          return result;
+      }
+      var foo = {
+          name: 'Selina'
+      }
+      var name = 'Chirs';
+      function bar(job, age) {
+          console.log(this.name);
+          console.log(job, age);
+      }
+      bar.apply(foo, ['programmer', 20]);
+      // Selina programmer 20
+      bar.apply(null, ['teacher', 25]);
+      // 浏览器环境: Chirs programmer 20; node 环境: undefined teacher 25
+      
+      ```
+
+      
+
+    - bind 和 call/apply 有一个很重要的区别，一个函数被 call/apply 的时候，会直接调用，但是 bind 会创建一个新函数。当这个新函数被调用时，bind() 的第一个参数将作为它运行时的 this，之后的一序列参数将会在传递的实参前传入作为它的参数。
+
+      ```js
+      Function.prototype.bind = function(context) {
+          if(typeof this !== "function"){
+             throw new TypeError("not a function");
+          }
+          let self = this;
+          let args = [...arguments].slice(1);
+          function Fn() {};
+          Fn.prototype = this.prototype;
+          let bound = function() {
+              let res = [...args, ...arguments]; //bind传递的参数和函数调用时传递的参数拼接
+              context = this instanceof Fn ? this : context || this;
+              return self.apply(context, res);
+          }
+          //原型链
+          bound.prototype = new Fn();
+          return bound;
+      }
+      
+      var name = 'Jack';
+      function person(age, job, gender){
+          console.log(this.name , age, job, gender);
+      }
+      var Yve = {name : 'Yvette'};
+      let result = person.bind(Yve, 22, 'enginner')('female');	
+      
+      ```
+
+      
+
+      
+
+16. #### new的原理是什么？通过new的方式创建对象和通过字面量创建有什么区别？
+
+    - new:  
+
+      - 创建一个新对象
+
+      - 将新对象和原型链接
+
+      - 将构造函数的作用域赋值给新对象，即this指向这个新对象
+
+      - 如果函数没有返回其他对象，那么new表达式中的函数调用会自动返回这个新对象。
+
+        ```js
+        function new(func) {
+            let target = {};
+            target.__proto__ = func.prototype;
+            let res = func.call(target);
+            if (typeof(res) == "object" || typeof(res) == "function") {
+            	return res;
+            }
+            return target;
+        }
+        
+        
+        作者：前端小姐姐
+        链接：https://juejin.im/post/5cab0c45f265da2513734390
+        来源：掘金
+        著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+        ```
+
+    - 和字面量创建比较
+
+      - 字面量创建对象，不会调用 Object构造函数, 简洁且性能更好;
+      - new Object() 方式创建对象本质上是方法调用，涉及到在proto链中遍历该方法，当找到该方法后，又会生产方法调用必须的 堆栈信息，方法调用结束后，还要释放该堆栈，性能不如字面量的方式。
+      - 通过对象字面量定义对象时，不会调用Object构造函数。
+
+17. #### 谈谈你对原型的理解？
+
+    - 在javaScript中，每当定义一个对象的时候，对象中都会包含一些预定义的属性，每个函数对象都会有prototype属性，这个属性就会指向原型对象。使用原型的好处就是，所有的实例对象都会共享原型所包含的属性和方法。
+
+18. #### 什么是原型链？【原型链解决的是什么问题？】
+
+    - 原型链解决的主要是继承问题。
+
+    - 每个对象拥有一个原型对象，通过 **proto** (读音: dunder proto) 指针指向其原型对象，并从中继承方法和属性，同时原型对象也可能拥有原型，这样一层一层，最终指向 null(`Object.proptotype.__proto__` 指向的是null)。这种关系被称为原型链 (prototype chain)，通过原型链一个对象可以拥有定义在其他对象中的属性和方法。
+
+    - 构造函数 Parent、Parent.prototype 和 实例 p 的关系如下:`(p.__proto__ === Parent.prototype)`
+
+      ![原型，原型链，实例对象的关系](/Users/tiantian/Desktop/framework/201904/基础知识/images/原型，原型链，实例对象的关系.png)
+
+19. #### prototype 和 `__proto__` 区别是什么？
+
+    - prototype是构造函数的属性。
+
+    - `__proto__` 是每个实例都有的属性，可以访问 prototype 属性。
+
+    - 实例的`__proto__` 与其构造函数的prototype指向的是同一个对象。
+
+      ```js
+      function Student(name) {
+          this.name = name;
+      }
+      Student.prototype.setAge = function(){
+          this.age=20;
+      }
+      let Jack = new Student('jack');
+      console.log(Jack.__proto__);
+      //console.log(Object.getPrototypeOf(Jack));;
+      console.log(Student.prototype);
+      console.log(Jack.__proto__ === Student.prototype);//true
+      
+      ```
+
+      
+
+20. ​    
+
+    ​    
+
+    ​    
+
+    ​    
+
+    ​    
+
+    ​    
+
+    ​    
+
+    ​    
+
+    ​    
+
+      
+
+20. #### 使用ES5实现一个继承？
+
+    ```js
+     function Woman(props){
+       People.call(this,props);
+       this.grade = props.grade || 1;
+     }
+    // 2. 空函数 F
+    function F() {}
+    
+    // 3. 将函数F的原型指向 People的原型
+    F.prototype = People.prototype;
+    
+    // 4. 将Woman的原型指向 F的实例对象，而F的实例对象的原型正好指向 People.prototype
+    Woman.prototype = new F;
+    
+    // 5. 将 Woman原型的 构造函数 修改为  Woman
+    Woman.prototype.constructor = Woman;
+    
+    // 验证
+    var tom = new Woman({
+      name: '汤姆',
+      grade: 2,
+    });
+    
+    tom.name;// '汤姆'
+    tom.grade; // 2
+    
+    // 原型验证
+    tom.__proto__ === Woman.prototype; // true
+    tom.__proto__.__proto__ === People.prototype; // true
+    
+    // 验证继承关系
+    tom instanceof Woman; // true
+    tom instanceof People; // true
+    ```
 
     
 
