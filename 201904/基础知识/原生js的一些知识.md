@@ -772,6 +772,144 @@
 
 27. #### promise 有几种状态, Promise 有什么优缺点 ?
 
+    1. promise有三种状态: fulfilled, rejected, pending.
+    2. Promise 的优点:
+       - 一旦状态改变，就不会再变，任何时候都可以得到这个结果
+       - 可以将异步操作以同步操作的流程表达出来，避免了层层嵌套的回调函数
+    3. Promise 的缺点:
+       - 无法取消 Promise
+       - 当处于pending状态时，无法得知目前进展到哪一个阶段
+
+28. #### Promise构造函数是同步还是异步执行，then中的方法呢 ?promise如何实现then处理 ?
+
+    - Promise的构造函数是同步执行的。then 中的方法是异步执行的。
+
+    - then 方法：<https://juejin.im/post/5c88e427f265da2d8d6a1c84>
+
+    - 自己实现一个promise
+
+      ```js
+      function hand() {
+          return new Promise (function (resolve,reject) {
+              setTimeout(function () {
+                  resolve()或者 reject()
+              })
+          })
+      }
+      // 异步代码操作
+      hand().then()
+      
+      // 异步代码变同步代码
+      async function asyncCall() {
+          let result = await hand()
+      }
+      asyncCall()
+      ```
+
+29. #### Promise和setTimeout的区别 ?
+
+    - Promise 是微任务，setTimeout 是宏任务，同一个事件循环中，promise.then总是先于 setTimeout 执行。
+
+30. #### 如何实现 Promise.all ?  <https://juejin.im/post/5c88e427f265da2d8d6a1c84#heading-24>
+
+    1.  Promise.all 的功能：
+
+       - 如果传入的参数是一个空的可迭代对象，那么此promise对象回调完成(resolve),只有此情况，是同步执行的，其它都是异步返回的。
+       - 如果传入的参数不包含任何 promise，则返回一个异步完成. promises 中所有的promise都“完成”时或参数中不包含 promise 时回调完成。
+       - 如果参数中有一个promise失败，那么Promise.all返回的promise对象失败
+       - 在任何情况下，Promise.all 返回的 promise 的完成状态的结果都是一个数组
+
+       ```js
+       Promise.all = function (promises) {
+           return new Promise((resolve, reject) => {
+               let index = 0;
+               let result = [];
+               if (promises.length === 0) {
+                   resolve(result);
+               } else {
+                   function processValue(i, data) {
+                       result[i] = data;
+                       if (++index === promises.length) {
+                           resolve(result);
+                       }
+                   }
+                   for (let i = 0; i < promises.length; i++) {
+                       //promises[i] 可能是普通值
+                       Promise.resolve(promises[i]).then((data) => {
+                           processValue(i, data);
+                       }, (err) => {
+                           reject(err);
+                           return;
+                       });
+                   }
+               }
+           });
+       }
+       
+       ```
+
+       
+
+31. #### 如何实现 Promise.finally ?
+
+    - 不管成功还是失败，都会走到finally中,并且finally之后，还可以继续then。并且会将值原封不动的传递给后面的then.
+
+      ```js
+      Promise.prototype.finally = function (callback) {
+          return this.then((value) => {
+              return Promise.resolve(callback()).then(() => {
+                  return value;
+              });
+          }, (err) => {
+              return Promise.resolve(callback()).then(() => {
+                  throw err;
+              });
+          });
+      }
+      
+      ```
+
+32. ####  什么是函数柯里化？实现 sum(1)(2)(3) 返回结果是1,2,3之和
+
+    - 函数柯里化是把接受多个参数的函数变换成接受一个单一参数（最初函数的第一个参数）的函数，并且返回接受余下的参数而且返回结果的新函数的技术。
+
+      ```js
+      function sum(a) {
+          return function(b) {
+              return function(c) {
+                  return a+b+c;
+              }
+          }
+      }
+      console.log(sum(1)(2)(3)); // 6
+      ```
+
+    - 实现一个curry函数，将普通函数进行柯里化:
+
+      ```js
+      function curry(fn, args = []) {
+          return function(){
+              let rest = [...args, ...arguments];
+              if (rest.length < fn.length) {
+                  return curry.call(this,fn,rest);
+              }else{
+                  return fn.apply(this,rest);
+              }
+          }
+      }
+      //test
+      function sum(a,b,c) {
+          return a+b+c;
+      }
+      let sumFn = curry(sum);
+      console.log(sumFn(1)(2)(3)); //6
+      console.log(sumFn(1)(2, 3)); //6
+      ```
+
+      
+
+
+
 
 
 
