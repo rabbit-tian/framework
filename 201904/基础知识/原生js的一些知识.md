@@ -242,7 +242,76 @@
 
    
 
-8. 
+8. #### 数组的哪些API会改变原数组？
+
+   - 改变原数组的方法:  pop/shift/unshift/push/splice/sort/reverse/fill/copyWithin
+
+     ```js
+     // fill 方法   使用固定值填充数组的每一项
+     let arr = [1,2,3,4];
+     arr.fill(10); // [10,10,10,10]
+     
+     /*	
+     	arr.copyWithin(target,start,end) 方法  选择元素复制到指定位置
+     	参数：
+     			target：必需。复制到指定目标索引位置。
+     			start: 可选。元素复制的起始位置。
+     			end: 可选。停止复制的索引位置 (默认为 array.length)。如果为负值，表示倒数。
+     */
+     
+     let arr2 = [1,2,3,4,5,6];
+     arr2.copyWithin(0,5); // [6,2,3,4,5,6]  选择索引为5的元素 复制到 索引为0的元素位置
+     ```
+
+     
+
+   - 不改变的原数组的方法：
+
+     - slice/concat/join/indexOf/lastIndexOf/toString/map/forEach/every/filter/reduce/entries/find
+     - 注：数组的每一项是简单数据类型，且未直接操作数组的情况下
+
+
+
+9. ####  let、const 以及 var 的区别是什么？
+
+   - let 和 const 定义的变量不会出现变量提升，而 var 定义的变量会提升。
+
+   - let 和 const 是JS中的块级作用域
+
+   - let 和 const 不允许重复声明(会抛出错误)
+
+   - let 和 const 定义的变量在定义语句之前，如果使用会抛出错误(形成了暂时性死区)，而 var 不会。
+
+   - const 声明一个只读的常量。一旦声明，常量的值就不能改变(如果声明是一个对象，那么不能改变的是对象的引用地址)
+
+   
+
+10. #### 在JS中什么是变量提升？什么是暂时性死区？
+
+    - 变量提升就是变量在声明之前就可以使用，值为undefined。
+
+    - 在代码块内，使用 let/const 命令声明变量之前，该变量都是不可用的(会抛出错误)。这在语法上，称为“暂时性死区”。暂时性死区也意味着 typeof 不再是一个百分百安全的操作。
+
+      ```js
+      typeof x; // ReferenceError(暂时性死区，抛错)
+      let x;
+      typeof y; // 值是undefined,不会报错
+      ```
+
+    - 暂时性死区的本质就是，只要一进入当前作用域，所要使用的变量就已经存在了，但是不可获取，只有等到声明变量的那一行代码出现，才可以获取和使用该变量。
+
+11. #### 如何正确的判断this? 箭头函数的this是什么？
+
+    - 参考：<https://github.com/YvetteLau/Blog/issues/6>
+
+    - 函数是否在new中调用(new绑定)，如果是，那么this绑定的是新创建的对象。
+    - 函数是否通过call,apply调用，或者使用了bind(即硬绑定)，如果是，那么this绑定的就是指定的对象。
+    - 函数是否在某个上下文对象中调用(隐式绑定)，如果是的话，this绑定的是那个上下文对象。一般是obj.foo()
+    - 如果以上都不是，那么使用默认绑定。如果在严格模式下，则绑定到undefined，否则绑定到全局对象。
+    - 如果把Null或者undefined作为this的绑定对象传入call、apply或者bind，这些值在调用时会被忽略，实际应用的是默认绑定规则。
+    - 如果是箭头函数，箭头函数的this继承的是外层代码块的this。
+
+12. 
 
 
 
