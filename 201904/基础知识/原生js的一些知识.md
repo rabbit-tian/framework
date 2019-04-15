@@ -151,12 +151,6 @@
       let person2 = person1;
       person2.gae = 20;
       console.log(person1 === person2); //true,注意复杂数据类型，比较的是引用地址
-      
-      
-      作者：前端小姐姐
-      链接：https://juejin.im/post/5cab0c45f265da2513734390
-      来源：掘金
-      著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
       ```
 
       #### 思考: `[] == ![]`
@@ -180,6 +174,73 @@
    3. ES6 class 不存在变量提升;
    4. ES6 class 默认即是严格模式;
       ES6 class 子类必须在父类的构造函数中调用super()，这样才有this对象;ES5中类继承的关系是相反的，先有子类的this，然后用父类的方法应用在this上。
+   5. 举例：**ES6的继承拖拽**
+
+   ```js
+       class Drag {
+           constructor(id) {
+               this.box = document.getElementById(id);
+               this.disX = 0;
+               this.disY = 0;
+           }
+   
+           init() {
+               this.box.addEventListener('mousedown', (ev) => {
+                   this.down(ev);
+               })
+           }
+   
+           down(ev) {
+               this.disX = ev.clientX - this.box.offsetLeft;
+               this.disY = ev.clientY - this.box.offsetTop;
+   
+               var move = (ev) => this.move(ev);
+               var up = (ev) => this.up(ev, move, up);
+   
+               document.addEventListener('mousemove', move);
+               document.addEventListener('mouseup', up);
+           }
+   
+           move(ev) {
+               this.box.style.left = ev.clientX - this.disX + 'px';
+               this.box.style.top = ev.clientY - this.disY + 'px';
+           }
+   
+           up(ev, move, up) {
+               document.removeEventListener('mousemove', move);
+               document.removeEventListener('mouseup', up);
+           }
+       }
+   
+       // Es6的继承
+   
+       class Drag2 extends Drag {
+           constructor(id) {
+               super(id);
+           }
+   
+           move(ev) {
+               var l = ev.clientX - this.disX;
+               if (l < 50) {
+                   l = 0;
+               } else if (l > window.innerWidth - this.box.offsetWidth - 50) {
+                   l = window.innerWidth - this.box.offsetWidth;
+               }
+               this.box.style.left = l + 'px';
+               this.box.style.top = ev.clientY - this.disY + 'px';
+           }
+   
+       }
+   
+       var d = new Drag('box');
+       d.init();
+   
+       var d2 = new Drag2('box2');
+       d2.init();
+   
+   ```
+
+   
 
 8. 
 
