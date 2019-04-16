@@ -124,8 +124,8 @@
    - 类数组转化成数组
 
      ```js
-     // 方法一
-     Array.prototype.slice.call(arraylike);
+     // 方法一 ， 原生的方法
+     Array.prototype.slice.call(arraylike); 
      // 方法二
      [...arraylike]
      // 方法三
