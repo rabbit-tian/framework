@@ -52,14 +52,20 @@
        console.log('TIAN'.toLowerCase()); // tian
    
      
+   
+   chaAt() chaCodeAt substr(n,m)  substring(n,m)  slice(n,m) indexOf lastIndexOf  toLowerCase toUpperCase
    ```
 
    
 
 2. 数组的一些方法
 
+   - 改变原数组的：push,pop,unshift,shift,reverse,sort,splice
+   - 不改变原数组的：slice,join,indexOf,lastIndexOf,toString,
+
    ```js
-       /*
+       
+   /*
          1. arr.push():  末尾添加
              (1). 返回值： 新数组长度
              (2). 原数组： 改变
@@ -218,7 +224,7 @@
        console.log(Math.ceil(3.4)); // 4
      
        // 2. Math.floor(num): 向下取整
-       console.log(Math.ceil(3.6)); // 4
+       console.log(Math.floor(3.6)); // 4
    
        // 3. Math.round(num): 四舍五入
        console.log(Math.round(3.6)); // 4
