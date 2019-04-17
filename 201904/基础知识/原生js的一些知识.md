@@ -20,6 +20,8 @@
 
    - instanceof是根据原型链判断的，A instanceof B ([`1,2,3] instanceof Object`)，在 A的原型链中层层查找，是否有原型等于 B.prototype，如果找到A的原型链的顶端(null，Object.protptype.__proto__),仍然不等于 B.prototype，那么返回false，否则返回true
 
+   - instanceof原理： 判断  P.proto 和 People.prototype 两属性是不是引用同一个地址
+
      
 
 3. #### for of , for in 和 forEach,map 的区别

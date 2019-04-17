@@ -70,7 +70,7 @@
 
       
 
-   2. ##### Window.name  + 跨域资源共享（CORS）iframe跨域
+   2. ##### Window.name  + 跨域资源共享   iframe跨域
 
       - window对象有个name属性，该属性特征：在一个窗口的生命周期内，窗口载入的所有页面共享一个window.name，每个页面都有对 window.name 的读写权限
       - 举例
