@@ -345,6 +345,18 @@
       let outer = closure()
       outer(); // 2
       outer(); // 3
+      
+      
+      function closure () {
+        let n = 1;
+        return function () {
+          n++;
+          console.log(n);
+        }
+      }
+      let result = closure ();
+      result(); // 2
+      result(); // 3
       ```
 
       
